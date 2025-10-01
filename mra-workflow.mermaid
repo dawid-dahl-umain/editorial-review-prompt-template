@@ -1,0 +1,100 @@
+flowchart TD
+    Start([User: Review all markdown files]) --> P1[PHASE 1: REVIEW & DOCUMENTATION]
+
+    P1 --> Step1[Step 1: Confirm & Clarify]
+    Step1 --> Scan[Scan repository for .md files]
+    Scan --> List[List files alphabetically]
+    List --> Confirm{User confirms?}
+    Confirm -->|Yes| Step2[Step 2: Create .mra/ directory structure]
+    Confirm -->|No/Subset| Step2
+
+    Step2 --> InitDoc[Initialize 00-SUMMARY.md and<br/>findings/ directory structure]
+    InitDoc --> Step3[Step 3: Review Files ONE BY ONE]
+
+    Step3 --> Loop{More files?}
+    Loop -->|Yes| AddEntry[Create findings file in<br/>.mra/findings/<br/>Status: REVIEWING]
+    AddEntry --> ReadFile[🔒 READ ONLY: Read file content]
+    ReadFile --> Check[🔒 READ ONLY: Check:<br/>Grammar, Links, Consistency,<br/>Structure, Formatting]
+
+    Check --> HasIssues{Found issues?}
+    HasIssues -->|Yes| Document[📝 DOCUMENT ONLY<br/>Do NOT fix - just record]
+    HasIssues -->|No| CheckObs
+    Document --> CheckObs
+
+    CheckObs{Flag observations?}
+    CheckObs -->|Yes| DocObs[Document observation<br/>with context & question]
+    CheckObs -->|No| UpdateEntry
+    DocObs --> UpdateEntry
+
+    UpdateEntry[Update file entry<br/>Status: COMPLETED<br/>Issues & Observations documented]
+    UpdateEntry --> UpdateHeader[Update document header<br/>Files Completed: +1<br/>Issues Found: +X<br/>Observations: +Y]
+    UpdateHeader --> Report[Report to user:<br/>Completed filename - X issues, Y obs]
+    Report --> CheckPause{Every 10 files?}
+    CheckPause -->|Yes| Pause[Pause & ask user]
+    Pause --> Loop
+    CheckPause -->|No| Loop
+
+    Loop -->|No more| Step4[Step 4: Generate Final Summary]
+    Step4 --> Stats[Calculate statistics]
+    Stats --> Cohesion[Analyze repository cohesion]
+    Cohesion --> Recommend[Generate recommendations<br/>Must/Should/Nice to Have]
+    Recommend --> Release[Assess release readiness]
+    Release --> Step5[Step 5: Present Report to User]
+
+    Step5 --> P2[PHASE 2: RESOLUTION & IMPLEMENTATION]
+
+    P2 --> UserReview[User reviews .mra/ directory]
+    UserReview --> UserInstructs{User gives<br/>instructions?}
+
+    UserInstructs -->|No - Done| Done([✅ Review Complete!])
+    UserInstructs -->|Yes| Interpret[Interpret instructions:<br/>Which issues to fix?<br/>What scope?<br/>What priority?]
+
+    Interpret --> ApplyFixes[Apply fixes to files]
+    ApplyFixes --> UpdateReport[Update report:<br/>- Issue status → FIXED<br/>- Add resolution details<br/>- Update counters<br/>- Add timestamp]
+    UpdateReport --> ReportBack[Report to user:<br/>What was fixed<br/>Updated statistics]
+    ReportBack --> UserInstructs
+
+    %% Styling
+    style Start fill:#f9f9f9,stroke:#333,stroke-width:3px,color:#000
+    style P1 fill:#1976d2,stroke:#0d47a1,stroke-width:4px,color:#fff
+    style Step1 fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style Scan fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style List fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style Confirm fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000
+    style Step2 fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style InitDoc fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style Step3 fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style Loop fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    style AddEntry fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    style ReadFile fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    style Check fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    style HasIssues fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000
+    style Document fill:#fff59d,stroke:#f9a825,stroke-width:3px,color:#000
+    style CheckObs fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000
+    style DocObs fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    style UpdateEntry fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    style UpdateHeader fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    style Report fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    style CheckPause fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    style Pause fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000
+    style Step4 fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style Stats fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style Cohesion fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style Recommend fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style Release fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style Step5 fill:#1976d2,stroke:#0d47a1,stroke-width:2px,color:#fff
+    style P2 fill:#7b1fa2,stroke:#4a148c,stroke-width:4px,color:#fff
+    style UserReview fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    style UserInstructs fill:#fff3e0,stroke:#f57c00,stroke-width:2px,color:#000
+    style Interpret fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    style ApplyFixes fill:#c8e6c9,stroke:#388e3c,stroke-width:3px,color:#000
+    style UpdateReport fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    style ReportBack fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    style Done fill:#4caf50,stroke:#2e7d32,stroke-width:3px,color:#fff
+
+    %% ARROW COLORS
+    %% Blue for Phase 1: Review & Documentation (Read-Only)
+    linkStyle 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32 stroke:#1976d2,stroke-width:3px
+
+    %% Purple for Phase 2: Resolution & Implementation (Controlled Mutations)
+    linkStyle 33,34,35,36,37,38,39,40 stroke:#7b1fa2,stroke-width:3px
