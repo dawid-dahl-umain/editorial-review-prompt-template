@@ -1,8 +1,8 @@
-# 📋 Editorial Review Prompt Template v2
+# 📋 Markdown Review Assistant (MRA)
 
 **Purpose:** Systematically review all markdown files in a repository for grammar, links, consistency, and cohesion through a two-phase workflow.
 
-**Key Change from v1:** Phase 1 is **read-only** (review and document). Phase 2 is **human-directed** (implement fixes based on user instructions).
+**How it works:** Phase 1 is **read-only** (review and document). Phase 2 is **human-directed** (implement fixes based on user instructions).
 
 ---
 
@@ -42,10 +42,10 @@ flowchart TD
     Step1 --> Scan[Scan repository for .md files]
     Scan --> List[List files alphabetically]
     List --> Confirm{User confirms?}
-    Confirm -->|Yes| Step2[Step 2: Create EDITORIAL_REVIEW_FINDINGS.md]
+    Confirm -->|Yes| Step2[Step 2: Create .mra/ directory structure]
     Confirm -->|No/Subset| Step2
 
-    Step2 --> InitDoc[Initialize document with<br/>Legend, Progress, placeholders]
+    Step2 --> InitDoc[Initialize summary and<br/>individual finding files]
     InitDoc --> Step3[Step 3: Review Files ONE BY ONE]
 
     Step3 --> Loop{More files?}
@@ -149,7 +149,7 @@ flowchart TD
 
 **CRITICAL RULE FOR PHASE 1: READ-ONLY MODE**
 
-- ✅ **ALLOWED**: Read files, analyze content, create/update EDITORIAL_REVIEW_FINDINGS.md
+- ✅ **ALLOWED**: Read files, analyze content, create/update `.mra/` directory with findings
 - ❌ **FORBIDDEN**: Modify any source files, fix issues, change content
 
 **Purpose:** Provide a comprehensive analysis of all issues and observations without making any changes.
@@ -165,17 +165,17 @@ I'll perform a comprehensive editorial review of your repository's markdown file
 
 PHASE 1: REVIEW & DOCUMENTATION (Read-Only)
 I will:
-1. Create EDITORIAL_REVIEW_FINDINGS.md to track all findings
+1. Create .mra/ directory with organized findings
 2. Review each .md file systematically
 3. Document all issues and observations (NO fixes applied)
-4. Provide a comprehensive report
+4. Provide a comprehensive summary report
 
 PHASE 2: RESOLUTION & IMPLEMENTATION (After your review)
 You will:
-1. Review the findings document
+1. Review the findings (easy navigation, one file per reviewed file)
 2. Give me instructions on what to fix
 3. I'll apply fixes according to your instructions
-4. Update the report with resolutions
+4. Update the reports with resolutions
 
 Scanning repository for markdown files...
 ```
@@ -200,12 +200,14 @@ Shall I proceed with reviewing all [X] files?
 
 ---
 
-### Step 2: Create Findings Document
+### Step 2: Create MRA Directory Structure
 
-Create `/EDITORIAL_REVIEW_FINDINGS.md` with this exact structure:
+Create `/.mra/` directory with the following files:
+
+**1. Create `/.mra/00-SUMMARY.md`** with this structure:
 
 ```markdown
-# Editorial Review Findings
+# 📋 Markdown Review Assistant - Summary
 
 **Review Date:** YYYY-MM-DD
 **Status:** 🟡 PHASE 1 IN PROGRESS
@@ -214,8 +216,6 @@ Create `/EDITORIAL_REVIEW_FINDINGS.md` with this exact structure:
 **Issues Found:** 0
 **Issues Fixed:** 0
 **Observations:** 0
-
-This document tracks all findings from the comprehensive editorial review.
 
 ## Legend
 
@@ -251,18 +251,29 @@ _Check off sections as you complete them:_
 - [ ] Consistency analysis
 - [ ] Final summary
 
----
-
 ## Files Reviewed
 
-_Entries will be added here as files are reviewed._
+_Individual findings are in separate files in this directory._
+_Naming: `path__to__file.md` (slashes replaced with double underscores)_
 
----
+**Examples:**
+
+- `README.md` → `.mra/README.md`
+- `docs/guide.md` → `.mra/docs__guide.md`
+- `src/components/Button.tsx.md` → `.mra/src__components__Button.tsx.md`
 
 ## Summary
 
-_Summary will be generated after all files are completed._
+_Summary statistics and analysis will be generated here after all files are completed._
 ```
+
+**2. For each file to be reviewed**, you will create a separate findings file (created during Step 3, not now).
+
+**Filename pattern:** Replace `/` with `__` (double underscore) in the file path.
+
+- `README.md` → `.mra/README.md`
+- `docs/guide.md` → `.mra/docs__guide.md`
+- `acceptance-test/dsl/utils/README.md` → `.mra/acceptance-test__dsl__utils__README.md`
 
 ---
 
@@ -272,10 +283,14 @@ _Summary will be generated after all files are completed._
 
 **For EACH file:**
 
-1. **Add a file entry immediately** (before reviewing):
+1. **Create individual findings file** `.mra/[filename-pattern].md`:
+
+**Filename pattern:** Replace `/` with `__` in the source file path.
+
+**Initial content:**
 
 ```markdown
-### 📄 path/to/file.md
+# 📄 Review: path/to/file.md
 
 **Review Date:** YYYY-MM-DD HH:MM
 **Status:** 🟡 REVIEWING
@@ -284,8 +299,6 @@ _Summary will be generated after all files are completed._
 **Observations:** 0
 
 _Review in progress..._
-
----
 ```
 
 2. **Review the file** (read it using your file reading tool) checking:
@@ -332,10 +345,10 @@ _Review in progress..._
 
 3. **🔒 DO NOT FIX ANYTHING - Only document findings**
 
-4. **Update the entry** with findings using this template:
+4. **Update the findings file** `.mra/[filename-pattern].md` with complete review:
 
 ```markdown
-### 📄 path/to/file.md
+# 📄 Review: path/to/file.md
 
 **Review Date:** YYYY-MM-DD HH:MM
 **Status:** ✅ COMPLETED
@@ -423,7 +436,7 @@ _No observations - file meets all standards._
 ---
 ```
 
-5. **Update the document header** after each file:
+5. **Update `.mra/00-SUMMARY.md` header** after each file:
 
    See [Technical Implementation Details → Document Update Pattern](#document-update-pattern) for exact sequence.
 
@@ -436,7 +449,7 @@ _No observations - file meets all standards._
 
    Note: "Issues Fixed" stays at 0 during entire Phase 1.
 
-6. **Report to user**: "✅ Completed [filename] - Found X issues (not fixed), Y observations"
+6. **Report to user**: "✅ Completed [filename] - Found X issues (not fixed), Y observations. See `.mra/[filename-pattern].md`"
 
    See [Technical Implementation Details → Progress Reporting](#progress-reporting) for frequency.
 
@@ -446,7 +459,7 @@ _No observations - file meets all standards._
 
 ### Step 4: Generate Final Summary
 
-**After ALL files reviewed**, replace the Summary section with:
+**After ALL files reviewed**, update `.mra/00-SUMMARY.md` Summary section with:
 
 ```markdown
 ## Summary
@@ -625,7 +638,9 @@ After completing everything, tell the user:
 - Observations flagged: Z
 - Assessment: [READY/READY WITH FIXES/NOT READY]
 
-📄 Full report: EDITORIAL_REVIEW_FINDINGS.md
+📁 Findings directory: .mra/
+📄 Summary report: .mra/00-SUMMARY.md
+📄 Individual reviews: .mra/[filename].md (one per file)
 
 [If issues found:]
 📋 Found Issues Breakdown:
@@ -661,14 +676,14 @@ What would you like me to do?
 
 **CRITICAL RULE FOR PHASE 2: CONTROLLED MUTATIONS**
 
-- ✅ **ALLOWED**: Modify source files according to user instructions, update EDITORIAL_REVIEW_FINDINGS.md
+- ✅ **ALLOWED**: Modify source files according to user instructions, update `.mra/` findings
 - ❌ **FORBIDDEN**: Fix anything not instructed by user, make assumptions about scope
 
 ---
 
 ### User Review & Instructions
 
-**User has reviewed EDITORIAL_REVIEW_FINDINGS.md and can give instructions in many forms:**
+**User has reviewed `.mra/` findings and can give instructions in many forms:**
 
 **Broad scope:**
 
@@ -781,11 +796,11 @@ What would you like me to do?
 
 **CRITICAL: These rules are strict business logic for maintaining report integrity**
 
-**After applying each fix, update EDITORIAL_REVIEW_FINDINGS.md:**
+**After applying each fix, update the relevant files in `.mra/`:**
 
 #### Rule 1: Update Issue Status
 
-**Location:** The specific issue entry
+**Location:** The specific issue entry in `.mra/[filename-pattern].md`
 
 ```markdown
 **Status:** 📋 Documented → ✅ Fixed
@@ -809,25 +824,25 @@ What would you like me to do?
 
 #### Rule 2: Update File Entry Counters
 
-**Location:** The file's header section
+**Location:** The file's header in `.mra/[filename-pattern].md`
 
 ```markdown
 **Issues Fixed:** 0 → [increment by number of fixes applied to this file]
 ```
 
-#### Rule 3: Update Document Header Counters
+#### Rule 3: Update Summary Header Counters
 
-**Location:** Top of document
+**Location:** Top of `.mra/00-SUMMARY.md`
 
 ```markdown
 **Issues Fixed:** 0 → [increment by 1 for each fix applied]
-**Status:** 🟡 PHASE 1 IN PROGRESS → 🟡 PHASE 2 IN PROGRESS
+**Status:** 🟡 PHASE 1 COMPLETE → 🟡 PHASE 2 IN PROGRESS
 **Phase:** 1 - Review & Documentation → 2 - Resolution & Implementation
 ```
 
 #### Rule 4: Update Summary Statistics
 
-**Location:** Summary section (if it exists)
+**Location:** Summary section in `.mra/00-SUMMARY.md`
 
 Update these tables to reflect new state:
 
@@ -843,7 +858,7 @@ And in issue breakdown:
 
 #### Rule 5: Add Resolution Log
 
-**Location:** Add new section at end of Summary (or create if doesn't exist)
+**Location:** Add new section at end of `.mra/00-SUMMARY.md` Summary (or create if doesn't exist)
 
 ```markdown
 ## Resolution Log
@@ -924,7 +939,9 @@ And in issue breakdown:
 - Files modified: Y
 - Failed fixes: Z (if any)
 
-📄 Updated report: EDITORIAL_REVIEW_FINDINGS.md
+📁 Updated findings: .mra/
+📄 Updated summary: .mra/00-SUMMARY.md
+📄 Updated file reviews: .mra/[filenames].md
 
 [If all succeeded:]
 ✅ All fixes applied successfully!
@@ -1080,18 +1097,23 @@ Would you like me to:
 
 ### Incremental Document Updates
 
-**Critical:** Update `EDITORIAL_REVIEW_FINDINGS.md` after EACH file in Phase 1, and after EACH fix batch in Phase 2.
+**Critical:** Update `.mra/` files after EACH file in Phase 1, and after EACH fix batch in Phase 2.
 
 **How to update:**
 
-1. **If you have `search_replace` tool:**
-   - Use it to update specific sections (header counts, add file entries, update issue status)
-   - Update header after each file/fix: `**Files Completed:** X/Y`
-2. **If you don't have `search_replace`:**
-   - Recreate the entire document with updates
-   - Preserve all previous entries
+1. **Phase 1 - After each file review:**
+   - Create/update `.mra/[filename-pattern].md` with complete findings
+   - Update `.mra/00-SUMMARY.md` header counters
+2. **Phase 2 - After each fix batch:**
+   - Update issue status in relevant `.mra/[filename-pattern].md` files
+   - Update counters in each affected file
+   - Update `.mra/00-SUMMARY.md` counters and Resolution Log
 
-**Where to add new entries:** Always append after the last file entry, before the Summary section
+**Filename pattern:** Replace `/` with `__` (double underscore)
+
+- `README.md` → `.mra/README.md`
+- `docs/guide.md` → `.mra/docs__guide.md`
+- `src/components/Button.tsx.md` → `.mra/src__components__Button.tsx.md`
 
 ### Link Verification
 
@@ -1119,6 +1141,7 @@ Would you like me to:
 
 ```
 ✅ Completed [filename] - Found X issues (not fixed), Y observations
+   📄 Review saved to: .mra/[filename-pattern].md
 ```
 
 **Every 10 files, pause and ask:**
@@ -1133,27 +1156,28 @@ Completed 10 files. Continue with next batch? (Y/n)
 
 ```
 ✅ Applied fixes to [X] issues in [Y] files
+   📄 Updated: .mra/[affected-files].md and .mra/00-SUMMARY.md
 ```
 
 ### Document Update Pattern
 
 **Phase 1 - After reviewing each file, update in this order:**
 
-1. Add complete file entry (with all issues and observations documented)
-2. Update header: `**Files Completed:** [increment by 1]`
-3. Update header: `**Issues Found:** [add new issues]`
-4. Update header: `**Observations:** [add new observations]`
-5. Report to user
+1. Create/update `.mra/[filename-pattern].md` with complete findings (all issues and observations)
+2. Update `.mra/00-SUMMARY.md` header: `**Files Completed:** [increment by 1]`
+3. Update `.mra/00-SUMMARY.md` header: `**Issues Found:** [add new issues]`
+4. Update `.mra/00-SUMMARY.md` header: `**Observations:** [add new observations]`
+5. Report to user with path to findings file
 
 **Phase 2 - After applying each fix batch, update in this order:**
 
-1. Update each issue status: `📋 Documented` → `✅ Fixed`
-2. Add resolution section to each issue
-3. Update file entry: `**Issues Fixed:** [increment]`
-4. Update header: `**Issues Fixed:** [increment]`
-5. Update summary statistics (if present)
-6. Add entry to Resolution Log
-7. Report to user
+1. Update each issue status in `.mra/[filename-pattern].md`: `📋 Documented` → `✅ Fixed`
+2. Add resolution section to each issue in its file
+3. Update file header in `.mra/[filename-pattern].md`: `**Issues Fixed:** [increment]`
+4. Update `.mra/00-SUMMARY.md` header: `**Issues Fixed:** [increment]`
+5. Update summary statistics in `.mra/00-SUMMARY.md`
+6. Add entry to Resolution Log in `.mra/00-SUMMARY.md`
+7. Report to user with paths to updated files
 
 ### Tool Availability Handling
 
@@ -1459,10 +1483,10 @@ I'll perform a comprehensive editorial review of your repository's markdown file
 
 PHASE 1: REVIEW & DOCUMENTATION (Read-Only)
 I will:
-1. Create EDITORIAL_REVIEW_FINDINGS.md to track all findings
+1. Create .mra/ directory with organized findings
 2. Review each file systematically
 3. Document all issues and observations (NO fixes applied)
-4. Provide a comprehensive report
+4. Provide a comprehensive summary report
 
 PHASE 2: RESOLUTION & IMPLEMENTATION (After your review)
 You will review the findings and give me instructions on what to fix.
@@ -1483,16 +1507,18 @@ Shall I proceed with reviewing all 22 files?
 **AI Response 2:**
 
 ```
-Creating EDITORIAL_REVIEW_FINDINGS.md...
-✅ Created
+Creating .mra/ directory structure...
+✅ Created .mra/00-SUMMARY.md
 
 Starting Phase 1 review (read-only)...
 
 📄 Reviewing README.md...
 ✅ Completed README.md - Found 2 issues (not fixed), 0 observations
+   📄 Review saved to: .mra/README.md
 
 📄 Reviewing docs/guide.md...
 ✅ Completed docs/guide.md - Found 1 issue (not fixed), 2 observations
+   📄 Review saved to: .mra/docs__guide.md
 
 [continues through all 22 files...]
 
@@ -1504,7 +1530,9 @@ Starting Phase 1 review (read-only)...
 - Observations flagged: 5
 - Assessment: READY WITH FIXES
 
-📄 Full report: EDITORIAL_REVIEW_FINDINGS.md
+📁 Findings directory: .mra/
+📄 Summary report: .mra/00-SUMMARY.md
+📄 Individual reviews: .mra/[filename].md (one per file)
 
 📋 Found Issues Breakdown:
 - Can fix automatically: 6 issues
@@ -1543,8 +1571,11 @@ Applying fixes...
 ✅ Fixed issue #1 in appendices/appendix-a.md (terminology)
 ✅ Fixed issue #2 in appendices/appendix-a.md (grammar)
 
-Updating EDITORIAL_REVIEW_FINDINGS.md...
-✅ Updated
+Updating .mra/ reports...
+✅ Updated .mra/README.md
+✅ Updated .mra/docs__guide.md
+✅ Updated .mra/appendices__appendix-a.md
+✅ Updated .mra/00-SUMMARY.md
 
 ✅ Phase 2: Fixes Applied
 
@@ -1553,7 +1584,12 @@ Updating EDITORIAL_REVIEW_FINDINGS.md...
 - Files modified: 3
 - Failed fixes: 0
 
-📄 Updated report: EDITORIAL_REVIEW_FINDINGS.md
+📁 Updated findings: .mra/
+📄 Updated summary: .mra/00-SUMMARY.md
+📄 Updated file reviews:
+   - .mra/README.md
+   - .mra/docs__guide.md
+   - .mra/appendices__appendix-a.md
 
 ✅ All fixes applied successfully!
 
@@ -1607,8 +1643,9 @@ Applying your choices:
 ✅ Fixed issue #3 in docs/guide.md (terminology → "user story")
 ✅ Fixed issue #4 in docs/guide.md (structure → split sections)
 
-Updating EDITORIAL_REVIEW_FINDINGS.md...
-✅ Updated
+Updating .mra/ reports...
+✅ Updated .mra/docs__guide.md
+✅ Updated .mra/00-SUMMARY.md
 
 ✅ Phase 2: Fixes Applied
 
@@ -1617,7 +1654,9 @@ Updating EDITORIAL_REVIEW_FINDINGS.md...
 - Files modified: 1
 - Failed fixes: 0
 
-📄 Updated report: EDITORIAL_REVIEW_FINDINGS.md
+📁 Updated findings: .mra/
+📄 Updated summary: .mra/00-SUMMARY.md
+📄 Updated file review: .mra/docs__guide.md
 
 ✅ All issues resolved!
 
@@ -1643,7 +1682,8 @@ Would you like to review the observations or is the review complete?
 
 ### During Phase 1:
 
-- [ ] Created EDITORIAL_REVIEW_FINDINGS.md with Phase 1 status
+- [ ] Created `.mra/` directory structure
+- [ ] Created `.mra/00-SUMMARY.md` with Phase 1 status
 - [ ] Adding file entries BEFORE reviewing each file
 - [ ] Documenting ALL issues found (not fixing)
 - [ ] Categorizing issues (Can Fix Auto / Needs Judgment / Requires Discussion)
@@ -1937,3 +1977,5 @@ The files are complete
 - ❌ Does NOT fix anything not instructed
 
 **Use this by:** Providing it to any AI with the request: "Review all markdown files in this repository"
+
+**The AI will create a `.mra/` directory** with organized findings - one file per reviewed file for easy navigation.
