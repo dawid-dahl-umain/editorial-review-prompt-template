@@ -4,7 +4,7 @@
 
 ## Quick Start
 
-This is the main entry point for the Markdown Review Assistant. The instructions are split into three focused documents:
+This is the main entry point for the Markdown Review Assistant. The instructions are split into four focused documents:
 
 ### 1. **[Core Workflow](core-workflow.md)** ⭐ START HERE
 
@@ -13,12 +13,24 @@ The essential workflow and rules you need to execute MRA:
 - Two-phase workflow (Review → Implementation)
 - Step-by-step process for Phase 1 and Phase 2
 - Critical rules (read-only vs controlled mutations)
-- Decision rules (what to document, how to categorize)
+- Operational decision rules
 - Essential guidelines (DO/DON'T lists)
 
 **Read this first** - it contains everything needed to perform the review.
 
-### 2. **[Reference Guide](reference.md)**
+### 2. **[Review Criteria](review-criteria.md)** 📝 DOMAIN EXPERTISE
+
+Editorial standards for markdown review:
+
+- Six review categories (Grammar, Spelling, Links, Terminology, Structure, Formatting)
+- Detailed guidance on what to check in each category
+- Decision rules (issue vs observation, severity assignment, category assignment)
+- Consistency checking across repository
+- Customization guidance for different doc types
+
+**This is the domain knowledge** - what makes the review comprehensive and valuable.
+
+### 3. **[Reference Guide](reference.md)**
 
 Templates, schemas, and technical details:
 
@@ -29,7 +41,7 @@ Templates, schemas, and technical details:
 
 **Use this as needed** - reference when creating documents or implementing technical details.
 
-### 3. **[Examples & Edge Cases](examples.md)**
+### 4. **[Examples & Edge Cases](examples.md)**
 
 Complete example flows and FAQs:
 
@@ -80,6 +92,7 @@ That's it. The modular structure keeps everything organized and accessible.
 instructions/
 ├── instructions.md          # This file (entry point)
 ├── core-workflow.md         # Essential workflow and rules ⭐
+├── review-criteria.md       # Editorial standards and domain expertise 📝
 ├── reference.md             # Templates, schemas, technical details
 └── examples.md              # Complete examples and edge cases
 
@@ -137,9 +150,10 @@ Parse and execute instructions from broad to narrow:
 
 When executing MRA:
 
-1. **Primary document:** [Core Workflow](core-workflow.md) - contains all essential instructions
-2. **Reference as needed:** [Reference Guide](reference.md) - for templates and technical details
-3. **Consult for clarity:** [Examples](examples.md) - for edge cases and practical guidance
+1. **Primary document:** [Core Workflow](core-workflow.md) - contains all essential workflow instructions
+2. **Domain knowledge:** [Review Criteria](review-criteria.md) - defines what to check and how to evaluate
+3. **Reference as needed:** [Reference Guide](reference.md) - for templates and technical details
+4. **Consult for clarity:** [Examples](examples.md) - for edge cases and practical guidance
 
 **Critical rules:**
 

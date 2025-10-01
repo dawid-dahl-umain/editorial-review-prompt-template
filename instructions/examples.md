@@ -473,20 +473,9 @@ Don't actually test HTTP requests - too slow and unreliable (sites may be tempor
 
 **Q: How detailed should grammar checking be?**
 
-A: Catch clear errors that impact clarity or correctness:
+A: See **[Review Criteria: Grammar & Mechanics](review-criteria.md#grammar--mechanics)** for complete guidance on level of detail and what to document vs ignore.
 
-**Document as issues:**
-
-- Subject-verb disagreement: "The files is complete"
-- Wrong tense: "Yesterday we create the file"
-- Typos: "recieve" → "receive"
-- Missing punctuation affecting meaning
-
-**Don't document:**
-
-- Style preferences: "However," vs "However"
-- Oxford comma choices (unless inconsistent)
-- Passive vs active voice (unless it impacts clarity)
+**Quick summary:** Focus on clear errors that impact clarity or correctness (subject-verb disagreement, wrong tense, typos). Don't document pure style preferences (Oxford comma choices, passive voice) unless they impact consistency or clarity.
 
 ---
 

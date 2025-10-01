@@ -11,10 +11,9 @@ flowchart TD
     Step2 --> InitDoc[Initialize 00-SUMMARY.md and<br/>findings/ directory structure]
     InitDoc --> Step3[Step 3: Review Files ONE BY ONE]
 
-    Step3 --> Loop{More files?}
-    Loop -->|Yes| AddEntry[Create findings file in<br/>.mra/findings/<br/>Status: REVIEWING]
+    Step3 --> AddEntry[Create findings file in<br/>.mra/findings/<br/>Status: REVIEWING]
     AddEntry --> ReadFile[🔒 READ ONLY: Read file content]
-    ReadFile --> Check[🔒 READ ONLY: Check:<br/>Grammar, Links, Consistency,<br/>Structure, Formatting]
+    ReadFile --> Check[🔒 READ ONLY: Check:<br/>Grammar, Spelling, Links, Terminology,<br/>Structure, Formatting]
 
     Check --> HasIssues{Found issues?}
     HasIssues -->|Yes| Document[📝 DOCUMENT ONLY<br/>Do NOT fix - just record]
@@ -31,10 +30,11 @@ flowchart TD
     UpdateHeader --> Report[Report to user:<br/>Completed filename - X issues, Y obs]
     Report --> CheckPause{Every 10 files?}
     CheckPause -->|Yes| Pause[Pause & ask user]
-    Pause --> Loop
-    CheckPause -->|No| Loop
+    Pause --> Loop{More files?}
+    CheckPause -->|No| Loop{More files?}
 
-    Loop -->|No more| Step4[Step 4: Generate Final Summary]
+    Loop -->|Yes| AddEntry
+    Loop -->|No| Step4[Step 4: Generate Final Summary]
     Step4 --> Stats[Calculate statistics]
     Stats --> Cohesion[Analyze repository cohesion]
     Cohesion --> Recommend[Generate recommendations<br/>Must/Should/Nice to Have]

@@ -34,6 +34,7 @@ The MRA uses a two-phase approach that separates review from implementation:
 └── instructions/
     ├── instructions.md      # Entry point and overview
     ├── core-workflow.md     # Essential workflow and rules ⭐
+    ├── review-criteria.md   # Editorial standards (domain expertise) 📝
     ├── reference.md         # Templates, schemas, technical details
     └── examples.md          # Complete examples and edge cases
 ```
@@ -41,6 +42,7 @@ The MRA uses a two-phase approach that separates review from implementation:
 **Modular Design Benefits:**
 
 - **Focused documents** - Each file has a clear purpose
+- **Customizable** - Adapt review-criteria.md for different doc types
 - **Faster loading** - AI reads only what's needed
 - **Easier maintenance** - Update sections independently
 - **Better clarity** - No overwhelming monolithic file
@@ -52,19 +54,19 @@ The MRA uses a two-phase approach that separates review from implementation:
 Copy the `instructions/` folder into your project, then provide all instruction files to your AI:
 
 ```
-@instructions.md @core-workflow.md @reference.md @examples.md
+@instructions.md @core-workflow.md @review-criteria.md @reference.md @examples.md
 
 Follow the MRA workflow to review all markdown files in this repository. Start with Phase 1 (read-only review and documentation).
 ```
 
-The AI will have access to the complete workflow, all templates/schemas, and examples.
+The AI will have access to the complete workflow, editorial standards, all templates/schemas, and examples.
 
 ### Option 2: Single File (Alternative)
 
 Use a solution like [repo.md](https://repo-md.com/) to convert this repository into one markdown file and provide it to your AI.
 
 **Pros:** Everything in one prompt  
-**Cons:** ~2,300 lines may reduce context space for your actual files
+**Cons:** Larger file (~2,500 lines) may reduce context space for your actual files
 
 ### Option 3: Core Only (Minimal)
 
@@ -76,7 +78,7 @@ Attach only the core workflow:
 Follow the workflow in this file to review all markdown files in this repository. Start with Phase 1.
 ```
 
-**Trade-off:** AI has maximum context for your files but may improvise on formatting details and edge cases since it won't have reference.md or examples.md.
+**Trade-off:** AI has maximum context for your files but may improvise on editorial standards, formatting details, and edge cases since it won't have review-criteria.md, reference.md, or examples.md.
 
 ### What Gets Created
 
@@ -106,6 +108,7 @@ The nested structure makes navigation intuitive and directly maps to your projec
 
 - **📘 [instructions.md](instructions/instructions.md)** - Entry point with overview and navigation
 - **⭐ [core-workflow.md](instructions/core-workflow.md)** - Essential workflow, rules, and guidelines (primary file)
+- **📝 [review-criteria.md](instructions/review-criteria.md)** - Editorial standards and domain expertise (customizable)
 - **📚 [reference.md](instructions/reference.md)** - Templates, schemas, and formatting standards
 - **📖 [examples.md](instructions/examples.md)** - Complete example flows, edge cases, and FAQs
 - **🔀 [mra-workflow.mermaid](mra-workflow.mermaid)** - Visual workflow diagram (for humans)

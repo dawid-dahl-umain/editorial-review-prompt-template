@@ -112,16 +112,18 @@ This nested structure makes navigation intuitive and directly maps to your proje
 
 1. **Create findings file** `.mra/findings/[original-path].md` with initial status, creating subdirectories as needed to mirror repository structure (see [Reference: File Entry Template](reference.md#file-entry-template))
 
-2. **Review the file** checking:
+2. **Review the file** according to the **[Review Criteria](review-criteria.md)** (summary below):
 
-   | Category                | What to Check                                                                                                                         |
-   | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-   | **Grammar & Mechanics** | Subject-verb agreement, tense consistency, pronoun agreement, sentence fragments, run-ons, comma splices, punctuation, capitalization |
-   | **Spelling**            | Typos, misspellings, consistent spelling variants (e.g., "behavior" vs "behaviour")                                                   |
-   | **Links**               | Internal anchors, relative paths, external URLs, images (see [Reference: Link Verification](reference.md#link-verification))          |
-   | **Terminology**         | Key terms used consistently, capitalization consistency, acronyms defined on first use                                                |
-   | **Structure**           | Heading hierarchy (no skipped levels), TOC matches headings, no duplicate headings at same level                                      |
-   | **Formatting**          | List styles consistent, code block language hints, bold/italic patterns, table formatting                                             |
+   | Category                | What to Check                                                                              |
+   | ----------------------- | ------------------------------------------------------------------------------------------ |
+   | **Grammar & Mechanics** | Subject-verb agreement, tense consistency, sentence structure, punctuation, capitalization |
+   | **Spelling**            | Typos, misspellings, consistent spelling variants                                          |
+   | **Links**               | Internal anchors, relative paths, external URLs, images                                    |
+   | **Terminology**         | Consistent key terms, capitalization, acronyms defined on first use                        |
+   | **Structure**           | Heading hierarchy (no skipped levels), TOC accuracy, logical flow                          |
+   | **Formatting**          | Consistent list styles, code block hints, bold/italic patterns, table formatting           |
+
+   See **[review-criteria.md](review-criteria.md)** for detailed guidance on each category, decision rules, and severity assignment.
 
 3. **🔒 DO NOT FIX ANYTHING** - Only document findings
 
@@ -412,36 +414,27 @@ Would you like me to:
 
 ## Decision Rules
 
+> **Note:** Detailed editorial guidance is in **[Review Criteria](review-criteria.md)**. This section covers operational decision rules for the workflow.
+
 ### What to Document as Issue vs Observation
 
-**Document as Issue:**
+See **[Review Criteria: Decision Rules](review-criteria.md#decision-rules)** for complete guidance.
 
-- Clear grammar/spelling error (subject-verb disagreement, wrong tense, typo)
-- Broken internal link
-- Inconsistent terminology (one doc uses "Todo", another uses "TODO")
-- Wrong heading level (skipped levels in hierarchy)
-- Missing punctuation
+**Quick reference:**
 
-**Document as Observation:**
-
-- Content could be reorganized but current structure is functional
-- Tone shifts between sections but not incorrect
-- Potential duplication between documents
-- Examples could be clearer
-- Links work but might point to better targets
-
-**Don't Document:**
-
-- Personal preferences with no rationale
-- Vague "could be better" statements without specifics
+- **Issue** = Clear error (grammar, broken link, wrong heading level)
+- **Observation** = Subjective improvement (could reorganize, tone shift, potential duplication)
+- **Don't document** = Pure preference without rationale
 
 ### Severity Assignment
 
-| Severity        | Use When                                                                                                          |
-| --------------- | ----------------------------------------------------------------------------------------------------------------- |
-| 🔴 **Critical** | Broken links to key navigation, major factual errors, severe grammar obscuring meaning, missing critical sections |
-| 🟡 **Medium**   | Minor grammar issues, inconsistent terminology, formatting issues, minor structural problems                      |
-| 🟢 **Low**      | Stylistic suggestions, optional improvements, nice-to-have additions, minor polish items                          |
+See **[Review Criteria: Severity Assignment](review-criteria.md#severity-assignment)** for complete guidance.
+
+**Quick reference:**
+
+- 🔴 **Critical** = Broken navigation links, major errors, blocks understanding
+- 🟡 **Medium** = Minor grammar, inconsistent terminology, formatting issues
+- 🟢 **Low** = Stylistic suggestions, optional improvements, polish
 
 ### When to Ask User for Clarification (Phase 2)
 
@@ -544,5 +537,6 @@ Track these patterns across ALL files and note in individual entries AND final s
 
 ## See Also
 
+- **[Review Criteria](review-criteria.md)** - Detailed editorial standards and domain expertise
 - **[Reference Guide](reference.md)** - Templates, schemas, formatting standards, technical implementation
 - **[Examples](examples.md)** - Complete Phase 1 and Phase 2 example flows, edge cases, FAQs
