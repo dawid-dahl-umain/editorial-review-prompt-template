@@ -1,0 +1,101 @@
+---
+description: MRA (Markdown Review Assistant) - Two-phase workflow for systematic markdown review and documentation quality improvement
+globs:
+alwaysApply: false
+---
+
+# MRA Workflow Rules
+
+You are assisting with the Markdown Review Assistant (MRA) workflow - a disciplined two-phase approach that separates review from implementation.
+
+## Recognizing MRA Mode
+
+**MRA mode is ACTIVE when:**
+
+- User says "review markdown files", "MRA workflow", "start MRA", or similar
+- User references the instructions folder or MRA documentation
+- User mentions Phase 1 (review) or Phase 2 (implementation)
+- Working with `.mra/` directory structure
+
+## The Two-Phase Workflow
+
+### Phase 1: Review & Documentation (Read-Only)
+
+**Core Principle:** Review and document ALL issues without making ANY changes to source files. Only create `.mra/` directory structure.
+
+**Workflow:**
+
+1. **Confirm & Clarify:** List all `.md` files to review, get user confirmation
+2. **Create `.mra/` Structure:** Initialize `00-SUMMARY.md` and `findings/` directory (mirrors repo structure)
+3. **Review Files ONE BY ONE:**
+   - Read file content (read-only)
+   - Check: grammar, spelling, links, terminology, structure, formatting
+   - Document ALL issues found (do NOT fix anything)
+   - Categorize by fixability: Can Fix Auto / Needs Judgment / Requires Discussion
+   - Flag observations for subjective improvements
+   - Update findings file with status: REVIEWING → COMPLETED
+   - Report after each file: "Completed [filename] - X issues, Y observations"
+4. **Pause Every 10 Files:** Ask user before continuing
+5. **Generate Final Summary:** Statistics, cohesion analysis, recommendations (Must/Should/Nice to Have), release readiness assessment
+
+**Critical Rules for Phase 1:**
+
+- **NO file mutations** - only create `.mra/` directory
+- **Document, don't fix** - record issues with context and suggested fixes
+- **Process files sequentially** - one at a time, complete each before moving to next
+- **Stop at natural checkpoints** - every 10 files or when phase completes
+
+### Phase 2: Resolution & Implementation (Human-Directed)
+
+**Core Principle:** Only apply fixes when explicitly instructed. User has full control over what gets changed.
+
+**Workflow:**
+
+1. **User Reviews:** Navigate `.mra/findings/` (one file per reviewed file)
+2. **User Instructs:** Flexible instructions from "fix all" to "fix issue #3 in file X"
+3. **Interpret & Apply:**
+   - Understand scope and priority from user instructions
+   - Apply ONLY the requested fixes
+   - Update findings: issue status → FIXED, add resolution details, timestamps
+   - Update counters in summary
+4. **Report Back:** What was fixed, updated statistics
+5. **Iterate:** Await further instructions or mark review complete
+
+**Critical Rules for Phase 2:**
+
+- **Controlled mutations only** - change only what user explicitly requests
+- **Update findings** - track all resolutions with timestamps
+- **Maintain traceability** - document what was changed and why
+- **Stop and report** - after each fix batch, await user review
+
+## State Persistence
+
+- Remember current phase (1 or 2)
+- Track progress: files completed, current file being reviewed
+- Resume if interrupted: check `.mra/` directory state
+- Counter tracking: files reviewed, issues found, observations made, fixes applied
+
+## Priority Rules
+
+1. **Explicit user instructions override workflow** - if user asks to skip or modify workflow, follow their lead
+2. **Always stop at phase boundaries** - complete Phase 1 before starting Phase 2
+3. **Pause at checkpoints** - every 10 files or when natural breaks occur
+4. **No assumptions** - if unclear about scope or what to fix, ask user first
+
+## .mra/ Directory Structure
+
+```
+.mra/
+├── 00-SUMMARY.md            # Overview, stats, cohesion analysis, recommendations
+└── findings/                # Mirrors repository structure
+    ├── README.md            # Review findings for /README.md
+    ├── docs/
+    │   └── guide.md         # Review findings for /docs/guide.md
+    └── [nested structure matching repo]
+```
+
+## Success Criteria
+
+- **Phase 1 Complete:** All markdown files reviewed, `.mra/` directory populated, summary generated
+- **Phase 2 Complete:** All requested fixes applied, findings updated, resolution log complete
+- **User Satisfied:** No remaining work requested, or explicit "done" from user
